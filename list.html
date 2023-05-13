@@ -1,0 +1,76 @@
+<!-- list.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Registered Users</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        color: #555;
+      }
+
+      #user-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        border-bottom: 1px solid #ccc;
+        padding: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      li:last-child {
+        border-bottom: none;
+      }
+
+      button {
+        padding: 5px 10px;
+        background-color: #088395;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0A4D68;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Registered Users</h1>
+    <ul id="user-list"></ul>
+
+    <script>
+      // Retrieve the list of registered users from local storage
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+      // Display the list of registered users
+      const userList = document.getElementById('user-list');
+      for (const user of users) {
+        const li = document.createElement('li');
+        li.textContent = `${user.name} (${user.email})`;
+
+        // Add delete button to each list item
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete User ';
+        deleteButton.addEventListener('click', () => {
+          const index = users.indexOf(user);
+          users.splice(index, 1);
+          localStorage.setItem('users', JSON.stringify(users));
+          li.remove();
+        });
+        li.appendChild(deleteButton);
+
+        userList.appendChild(li);
+      }
+    </script>
+  </body>
+</html>
